@@ -7,6 +7,20 @@ parameters:
     type: boolean
     default: false
 
+orbs:
+  win: circleci/windows@2.2.0
+
+jobs:
+  build: # name of your job
+    executor:
+      name: win/default # executor type
+      size: "medium" # resource class, can be "medium", "large", "xlarge", "2xlarge", defaults to "medium" if not specified
+
+    steps:
+      # Commands are run in a Windows virtual machine environment
+      - checkout
+      - run: Write-Host 'Hello, Windows'
+
 # here we specify our workflows, most of which are conditionally
 # executed based upon pipeline parameter values. Each workflow calls a
 # specific job defined above, in the jobs section.
@@ -16,6 +30,4 @@ workflows:
   docs:
     when: << pipeline.parameters.run-doc-job >>
     jobs:
-      - echo:
-          name: echo
-          command: "echo doc job"
+      - build
