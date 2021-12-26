@@ -1,0 +1,21 @@
+version: 2.1
+
+# the default pipeline parameters, which will be updated according to
+# the results of the path-filtering orb
+parameters:
+  run-doc-job:
+    type: boolean
+    default: false
+
+# here we specify our workflows, most of which are conditionally
+# executed based upon pipeline parameter values. Each workflow calls a
+# specific job defined above, in the jobs section.
+workflows:
+  # when pipeline parameter, run-build-service-1-job is true, the
+  # build-service-1 job is triggered.
+  docs:
+    when: << pipeline.parameters.run-doc-job >>
+    jobs:
+      - echo:
+          name: echo
+          command: "echo doc job"
